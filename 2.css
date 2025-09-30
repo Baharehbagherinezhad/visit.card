@@ -5,75 +5,85 @@ body{
     height:100vh;
     margin: 0;
     background-color: #f0f0f0;
+    font-family: Tahoma, sans-serif;
+
 }
 
-.container-card {
-    perspective: 1000px;
+/* والد برای perspective و scale */
+.card-wrapper {
+  perspective: 1000px;
+  /* بزرگ‌ شدن را روی این المان انجام می‌دهیم */
+  transition: transform 1.50s ease;
+  /* transform-origin وسط صفحه */
+  transform-origin: center center;
 }
-
-.card{
-    width:350px;
-    height:250px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s;
+/* وقتی کلاس grow به wrapper اضافه شود، بزرگ می‌شود */
+.card-wrapper.grow {
+  transform: scale(1.3);
+  will-change: transform;
 }
-
-.card:hover {
-    transform: rotateY(180deg);
+/* کارت خودِ چرخان */
+.card {
+  width: 350px;
+  height: 250px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.5s ease;
+  transform-origin: center center;
+  /* هیچ transform ثابت دیگری نگذارید (مثلاً :hover) که با flipped تداخل کند */
 }
-
+/* وقتی کلاس flipped روی کارت باشد، بچرخد */
+.card.flipped {
+  transform: rotateY(180deg);
+}
+/* front & back هر دو روی هم قرار می‌گیرند */
 .front, .back {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    backface-visibility: hidden;
-    width:100%;
-    height:100%;
-    border-radius: 5px;
-    box-shadow:0 8px 7px rgba(0,0,0,0.3);
+  position: absolute;
+  inset: 0; /* top:0; left:0; right:0; bottom:0; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
 }
 
+/* ظاهر جلو و پشت */
 .front {
-    background-color: bisque;
-    color: rgb(107, 34, 175);
+  background: bisque;
+  color: rgb(107,34,175);
 }
+
 
 .back {
-    background-color: rgb(143, 75, 75);
-    color: antiquewhite;
-    transform: rotateY(180deg);
-    font-size:large;
-}
-.back p{
-    margin: 5px 5px;
-    padding:10px 10px;
-    border-radius: 5px;
-    text-align: center;
-    width:90%;
-}
-.back .phone{
-    background-color: rgb(196, 119, 91);
-}
-.back .email{
-    background-color: aquamarine;
-    color:black;
-}
-.back .address{
-    background-color: rgb(20, 96, 99);
+  background: rgb(143,75,75);
+  color: antiquewhite;
+  transform: rotateY(180deg); /* برگرداندن پشت برای چرخش صحیح */
 }
 
+/* اندازه و ظاهر محتوا */
 .front h1 {
-    background-color: transparent;
-    margin: 5px 0;
-    font-size:30px;
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  background: transparent;
+}
+/* باکس‌های پشت کارت */
+.back p{
+  width: 80%;
+  text-align: center;
+  margin: 6px 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+.back .phone { background: rgb(196,119,91); }
+.back .email { background: aquamarine; color: black; }
+.back .address { background: rgb(20,96,99); }
+
+.profile-img {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
-.profile-img{
-    width:200px;
-    height:150px;
-    border-radius: 5px;
-    margin:10px 0;
-    object-fit: cover;
-}
